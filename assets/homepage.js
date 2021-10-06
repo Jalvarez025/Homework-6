@@ -41,6 +41,24 @@ var getWeather = function(city){
             alert('Unable to connect to openweather')
         });
 
+    // var fetchUrl = ;
+
+    // fetch(fetchUrl)
+    //     .then(function(r){
+    //         if(r.ok){
+    //            r.json().then(function(info){
+    //             console.log(info);
+    //             addUvIndex(info);
+    //             //displayWeather(info, city);
+    //             }); 
+    //         }else{
+    //             alert('Error: ' + response.statusText);
+    //         }
+    //     })
+    //     .catch(function(error){
+    //         alert('Unable to connect')
+    //     });
+
 }
 
 var displayWeather = function (data, city){
@@ -54,10 +72,39 @@ var displayWeather = function (data, city){
     var momentEl = moment().format("(MM/DD/YYYY)");  
     console.log(momentEl);
 
+    
+    // var iconEl = document.createElement('img');
+    // iconEl.setAttribute('src', data.weather.icon)
+    // console.log(iconEl)
+
     var titleEl = document.createElement('strong');
-    titleEl.textContent = data.name + " " + momentEl;
+    titleEl.textContent = data.name + " " + momentEl; //+ " " + iconEl;
 
     infoSecEl.appendChild(titleEl);
+
+    var tempEl = document.createElement('div');
+    var convertTemp = (data.main.temp - 273.15)*9/5 + 32;
+    var roundTemp = Math.round(convertTemp * 100)/100
+    tempEl.textContent = "Temp: " + roundTemp + " *F";
+
+    infoSecEl.appendChild(tempEl);
+
+    var windEl = document.createElement('div');
+    var convertWind = data.wind.speed*2.237;
+    var roundWind = Math.round(convertWind * 100)/100
+    windEl.textContent = "Wind: " + roundWind + " MPH";
+
+    infoSecEl.appendChild(windEl);
+
+    var humidityEl = document.createElement('div');
+    var humidity = data.main.humidity;
+    humidityEl.textContent = "Humidity: " + humidity + " %";
+
+    infoSecEl.appendChild(humidityEl);
+
+    //addUvIndex()
+
+    //infoSecEl.appendChild(uvIndexEl);
 
 
 
@@ -69,6 +116,15 @@ var displayWeather = function (data, city){
 
 
 }
+
+// var addUvIndex = function(info){
+//     var uvIndexEl = document.createElement('div');
+//     console.log(info);
+//     var uviEl = info.current.uvi;
+//     uvIndexEl.textContent = "UV index: " + uviEl;
+//     return uvIndexEl;
+
+// }
 
 
 userFormEl.addEventListener('submit', formSubmitHandler);
